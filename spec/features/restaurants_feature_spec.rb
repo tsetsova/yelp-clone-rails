@@ -30,6 +30,17 @@ feature 'restaurants' do
 			expect(page).to have_content 'KFC'
 			expect(current_path).to eq '/restaurants'
 		end
+
+		context 'adding an invalid restaurant' do
+			scenario 'with less than 2 characters' do
+				visit '/restaurants'
+				click_link 'Add a restaurant'
+				fill_in 'Name', with: 'kf'
+				click_button 'Create Restaurant'
+				expect(page).not_to have_css 'h2', text: "kf" 
+				expect(page).to have_content 'error'
+			end
+		end
 	end
 
 	context 'viewing restaurants' do
