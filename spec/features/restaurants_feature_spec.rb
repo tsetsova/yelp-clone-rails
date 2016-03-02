@@ -40,6 +40,15 @@ feature 'restaurants' do
 				expect(page).not_to have_css 'h2', text: "kf" 
 				expect(page).to have_content 'error'
 			end
+
+			scenario 'with same name as existing entry' do
+				Restaurant.create(name:'KFC')
+				visit '/restaurants'
+				click_link 'Add a restaurant'
+				fill_in 'Name', with: 'KFC'
+				click_button 'Create Restaurant'
+				expect(page).to have_content 'error'
+			end
 		end
 	end
 
